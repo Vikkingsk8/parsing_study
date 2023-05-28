@@ -1,11 +1,18 @@
+import requests
+import webbrowser
 
-with open('numbers.txt', encoding='utf-8') as file:
-    nums_1 = []
-    nums_2 = []
-    for i in file:
-        if 99 < int(i) <=999:
-            nums_1.append(i)
-        elif 9 < int(i) <= 99:
-            nums_2.append(int(i))
-print(len(nums_1))
-print(sum(nums_2))
+
+print('go')
+site = input('url input')
+era = input('year, month, day')
+url = 'https://web.archive.org/' % (site, era)
+response = requests.get(url)
+data = response.json()
+try:
+    old_site = data['archive_snapshots']['closest']['url']
+    print('find copy: ', old_site)
+    print('i will open it')
+    webbrowser.open(old_site)
+
+except:
+    print('no copy')
